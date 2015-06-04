@@ -27,7 +27,7 @@ internet/tv/phone, and etc, equates to the following annual need in 35 years whe
 you retire (given 3.5% inflation):
 
 ```{r echo=FALSE}
-5*12*1.035^35
+format(5000*12*1.035^35,nsmall=2,big.mark=",")
 ```
 
 And it doesn't stop growing then. The need keeps growing even when you're in retirement

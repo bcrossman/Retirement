@@ -28,7 +28,7 @@ you retire (given 3.5% inflation):
 
 
 ```
-[1] 200.0154
+[1] "200,015.43"
 ```
 
 And it doesn't stop growing then. The need keeps growing even when you're in retirement
