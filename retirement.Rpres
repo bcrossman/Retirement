@@ -1,0 +1,64 @@
+Retirement Analysis
+========================================================
+author: Brent Crossman
+date: 6/3/15
+
+https://bcrossman.shinyapps.io/Retirement
+
+Do you want to retire?
+========================================================
+
+You can't get somewhere without knowing where you're going.My retirement app 
+helps you know where you're going. 
+
+The output is individualized based on:
+
+- Age and Demographics
+- Return and Inflation Expectations
+- Savings and ability to save
+
+Future $: Not As Good As Today's $
+========================================================
+
+The first issue is it costs a lot more to maintain your lifestyle in the future
+than what you're paying for that lifestyle today. You have to account for inflation. 
+For instance, a family currently spending $5K a month for housing, cars, clothing, 
+internet/tv/phone, and etc, equates to the following annual need in 35 years when
+you retire (given 3.5% inflation):
+
+```{r echo=FALSE}
+5*12*1.035^35
+```
+
+And it doesn't stop growing then. The need keeps growing even when you're in retirement
+
+So what do I need?
+========================================================
+Assuming that $200K of annual expense need, if you intend to live roughly 25 
+years after retirement and can invest your savings at5% after you retire the 
+amount you'll need to retire is 
+
+```{r, echo=FALSE}
+library(FinCal)
+cf<-c()
+annual_need_retirement<-(200000-24000)/(1-.2)
+    for(i in 1:25){
+      cf[i]<-fv(.035,i-1,pv=annual_need_retirement)
+    }
+retirement_need<-pv.uneven(.05,cf)    
+format(retirement_need,big.mark = ",")
+```
+<small> This takes into account$24K of annual post-tax Social Security receipt 
+and a 20% tax rate on distributions</small>
+
+How do I get there?
+========================================================
+That might seem like a big number but the following chart shows how much you'll need to save per year to hit that retirement hurdle in 35 years under various return expectations:
+
+```{r, echo=FALSE,out.height="350px",out.width="350px"}
+library(ggplot2)
+x<-seq(from = .04,to = .10,by = .001)
+y<-(-pv.simple(r = x,n = 35,fv = 4431199))/(((1-(1.02)^35*(1+x)^-35)/(x-.02)))
+plot(x=x,y=y, main="Annual Savings to Retire",xlab = "Return Expectation",ylab="Annual Savings",)
+```
+<small><small>Remember, this number needs to increased by 2% a year to hit your final retirement hurdle.</small></small>
